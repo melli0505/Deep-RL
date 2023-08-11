@@ -6,10 +6,10 @@ import numpy as np
 class ENV(Env):
     def __init__(self):
         # self.action_space = Discrete(5, start=-2)
-        self.action_space = Box(low=-2, high=2, shape=(1,), dtype=np.int8)
+        self.action_space = Box(low=-3, high=3, shape=(1,), dtype=np.int8)
         self.observation_space = Box(low=np.array([0]), high=np.array([100]), dtype=np.int8)
-        self.state = 38 + random.randint(-5,5)
-        self.shower_length = 60
+        self.state = 23 + random.randint(-5,5)
+        self.shower_length = 100
 
     def step(self, action):
         """
@@ -26,14 +26,21 @@ class ENV(Env):
             done: episode 종료 여부 표시
             info: .
         """
-        self.state += action -1 
+        # print("+ env action: ", action)
+        self.state += action[0] * 3
         self.shower_length -= 1 
         
         # Calculating the reward
-        if self.state >=37 and self.state <=39: 
-            reward =1 
-        else: 
-            reward = -1 
+        if self.state > 30:
+            reward = -5
+        elif 30 >= self.state > 25:
+            reward = -3
+        elif self.state >=20 and self.state <=25: 
+            reward = 5
+        elif 10 < self.state < 20:
+            reward = -3
+        else:
+            reward = -5
         
         # Checking if shower is done
         if self.shower_length <= 0: 
@@ -45,9 +52,12 @@ class ENV(Env):
         info = {}
         
         # Returning the step information
-        return self.state, reward, done, info
+        return self.get_obs(), reward, done, info
     
     def reset(self):
-        self.state = 38 + random.randint(-5,5)
-        self.shower_length = 60 
-        return self.state
+        self.state = 23 + random.randint(-5,5)
+        self.shower_length = 100 
+        return self.get_obs()
+    
+    def get_obs(self):
+        return np.array([self.state], dtype=int)

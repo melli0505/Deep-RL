@@ -19,9 +19,9 @@ class Agent:
         self.max_action = env.action_space.high[0]
         self.min_action = env.action_space.low[0]
 
-        self.actor = ActorNetwork(n_actions=n_actions, name='actor')
+        self.actor = ActorNetwork(fc1_dims=fc1, fc2_dims=fc2, n_actions=n_actions, name='actor')
         self.critic = CriticNetwork(name='critic')
-        self.target_actor = ActorNetwork(n_actions=n_actions,
+        self.target_actor = ActorNetwork(fc1_dims=fc1, fc2_dims=fc2, n_actions=n_actions,
                                          name='target_actor')
         self.target_critic = CriticNetwork(name='target_critic')
 
@@ -51,19 +51,19 @@ class Agent:
     def remember(self, state, action, reward, new_state, done):
         self.memory.store_transition(np.array(state, dtype=object), action, reward, new_state, done)
 
-    def save_models(self):
+    def save_models(self, i):
         print('... saving models ...')
-        self.actor.save_weights(self.actor.checkpoint_file)
-        self.target_actor.save_weights(self.target_actor.checkpoint_file)
-        self.critic.save_weights(self.critic.checkpoint_file)
-        self.target_critic.save_weights(self.target_critic.checkpoint_file)
+        self.actor.save_weights("./ddpg/" + str(i) + "_" + self.actor.checkpoint_file)
+        self.target_actor.save_weights("./ddpg/" + str(i) + "_" + self.target_actor.checkpoint_file)
+        self.critic.save_weights("./ddpg/" + str(i) + "_" + self.critic.checkpoint_file)
+        self.target_critic.save_weights("./ddpg/" + str(i) + "_" + self.target_critic.checkpoint_file)
 
-    def load_models(self):
+    def load_models(self, i):
         print('... loading models ...')
-        self.actor.load_weights(self.actor.checkpoint_file)
-        self.target_actor.load_weights(self.target_actor.checkpoint_file)
-        self.critic.load_weights(self.critic.checkpoint_file)
-        self.target_critic.load_weights(self.target_critic.checkpoint_file)
+        self.actor.load_weights("./ddpg/" + str(i) + "_" + self.actor.checkpoint_file)
+        self.target_actor.load_weights("./ddpg/" + str(i) + "_" + self.target_actor.checkpoint_file)
+        self.critic.load_weights("./ddpg/" + str(i) + "_" + self.critic.checkpoint_file)
+        self.target_critic.load_weights("./ddpg/" + str(i) + "_" + self.target_critic.checkpoint_file)
 
     def choose_action(self, observation, evaluate=False):
         state = tf.convert_to_tensor([observation], dtype=tf.float32)

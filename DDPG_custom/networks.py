@@ -1,18 +1,18 @@
 import os
 import tensorflow as tf
 import tensorflow.keras as keras
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Input
 
 class CriticNetwork(keras.Model):
     def __init__(self, fc1_dims=512, fc2_dims=512,
-            name='critic', chkpt_dir='tmp/ddpg'):
+            name='critic', chkpt_dir='./ddpg'):
         super(CriticNetwork, self).__init__()
         self.fc1_dims = fc1_dims
         self.fc2_dims = fc2_dims
 
         self.model_name = name
         self.checkpoint_dir = chkpt_dir
-        self.checkpoint_file = os.path.join(self.checkpoint_dir, 
+        self.checkpoint_file = os.path.join(
                     self.model_name+'_ddpg.h5')
 
         self.fc1 = Dense(self.fc1_dims, activation='relu')
@@ -29,7 +29,7 @@ class CriticNetwork(keras.Model):
 
 class ActorNetwork(keras.Model):
     def __init__(self, fc1_dims=512, fc2_dims=512, n_actions=2, name='actor',
-            chkpt_dir='tmp/ddpg'):
+            chkpt_dir='./ddpg'):
         super(ActorNetwork, self).__init__()
         self.fc1_dims = fc1_dims
         self.fc2_dims = fc2_dims
@@ -37,11 +37,14 @@ class ActorNetwork(keras.Model):
 
         self.model_name = name
         self.checkpoint_dir = chkpt_dir
-        self.checkpoint_file = os.path.join(self.checkpoint_dir, 
+        self.checkpoint_file = os.path.join(
                     self.model_name+'_ddpg.h5')
 
-        self.fc1 = Dense(self.fc1_dims, activation='relu')
-        self.fc2 = Dense(self.fc2_dims, activation='relu')
+        self.relu = tf.keras.layers.Activation('relu')
+        self.tanh = tf.keras.layers.Activation('tanh')
+
+        self.fc1 = Dense(self.fc1_dims, input_dim=1, activation='relu')
+        self.fc2 = Dense(self.fc2_dims, input_dim=fc1_dims, activation='relu')
         self.mu = Dense(self.n_actions, activation='tanh')
 
     def call(self, state):
