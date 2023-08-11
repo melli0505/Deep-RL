@@ -1,7 +1,9 @@
 # DDPG
 Deformed DDPG Agent and Actor-Critic models that implemented by @philtabor.
 Original Repository and Code is in https://github.com/philtabor/Youtube-Code-Repository .
-| WARNING - DDPG is for continuous action space, but this implementation reflect action as integer - discrete after calculate action. You can find source code in `custom_env.py`, line 30 and 62-64.
+
+- WARNING - DDPG is for continuous action space, but this implementation reflect action as integer - discrete after calculate action. 
+    - You can find source code in `custom_env.py`, line 30 and 62-64.
 
 
 ## Custom Environment
