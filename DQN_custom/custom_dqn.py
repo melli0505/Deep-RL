@@ -94,6 +94,7 @@ dqn.fit(env, nb_steps=200000, visualize=False, verbose=1)
 
 results = dqn.test(env, nb_episodes=150, visualize=False)
 print(np.mean(results.history['episode_reward']))
+
 # episodes = 20
 # for episode in range(1, episodes + 1):
 #     state = env.reset()
