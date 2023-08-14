@@ -48,6 +48,7 @@ class ActorNetwork(keras.Model):
         self.mu = Dense(self.n_actions, activation='tanh')
 
     def call(self, state):
+        print("+ state_call : ", state, state.shape)
         prob = self.fc1(state)
         prob = self.fc2(prob)
 
