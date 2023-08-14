@@ -1,5 +1,5 @@
 # DDPG
-Deformed DDPG Agent and Actor-Critic models that implemented by @philtabor.
+Deformed DDPG Agent and Actor-Critic models that implemented by ***@philtabor***.
 Original Repository and Code is in https://github.com/philtabor/Youtube-Code-Repository .
 
 - WARNING - DDPG is for continuous action space, but this implementation reflect action as integer - discrete after calculate action. 
@@ -13,7 +13,7 @@ Original Repository and Code is in https://github.com/philtabor/Youtube-Code-Rep
 - In this example, state shape is (1, ), so I do modify actor - critic model structure. You can check in `networks.py` 
 
 ## Evaluate with pretrained weight
-There is pretrained weight after training 90 episode in `ddpg/`. You can test with this, modify these things in `custom_ddpg.py`.
+There is pretrained weight after training 90 episode in `ddpg/`. You can test with this, modify these things in `main.py`.
 - `load_checkpoint = True`
 - `n_games = 1`
 - uncomment line 50-51 to monitor selected action and reward in each step.
