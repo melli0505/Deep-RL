@@ -18,3 +18,17 @@ Apply keras-rl DQN Agent(https://github.com/keras-rl/keras-rl/blob/master/rl/age
 
 ## DDPG with tensorflow
 Deformed DDPG Agent and Actor-Critic models that implemented by ***@philtabor***. Original Repository and Code is in https://github.com/philtabor/Youtube-Code-Repository.
+
+## Dueling DQN with tensorflow
+Deformed Dueling DQN models that implemented by ***@philtabor***. Original Repository and Code is in https://github.com/philtabor/Youtube-Code-Repository.
+
+I set the effect of reward on training step 3 times larger than normal one. You can check it out in `dueling_dqn.py`, line 65. 
+
+For more information, see `DuelDQN_custom/README.md`
+
+## Dueling Double DQN with tensorflow
+Deformed Dueling DQN models that implemented by ***@philtabor***. Original Repository and Code is in https://github.com/philtabor/Youtube-Code-Repository.
+
+I set the effect of reward on training step 10 times larger than normal one. You can check it out in `dddqn.py`, line 59 - 61. 
+
+For more information, see `DDDQN_custom/README.md`
