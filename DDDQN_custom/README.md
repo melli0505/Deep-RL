@@ -12,11 +12,11 @@ Original Repository and Code is in https://github.com/philtabor/Youtube-Code-Rep
 There is pretrained weight after training 180 episode in `models/`. You can test with this, set input as following comments in `main.py`.
 - Load checkpoint : True
 - Training resume : False
-- model name : dueling
+- model name : ddqn
 
 If you wanna train with your own environment setting, you need to modify line 42 in `main.py`.
 
 ## Warning
-I set the effect of reward on training step 10 times larger than normal one. You can check it out in `dueling_dqn.py`, line 59 - 61. 
+I set the effect of reward on training step 10 times larger than normal one. You can check it out in `dddqn.py`, line 59 - 61. 
 
 If your model hardly depends on the reward function, this might be the reason. 
