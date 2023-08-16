@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from dueling_dqn import Agent
+from dddqn import Agent
 from custom_env import ENV
 from network import DuelingDeepQNetwork
 import tensorflow as tf

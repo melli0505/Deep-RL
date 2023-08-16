@@ -1,5 +1,5 @@
-# Dueling DQN
-Deformed Dueling DQN Agent and Actor-Critic models that implemented by ***@philtabor***.
+# Dueling Double DQN
+Deformed Dueling Double DQN Agent and Actor-Critic models that implemented by ***@philtabor***.
 Original Repository and Code is in https://github.com/philtabor/Youtube-Code-Repository .
 
 ## Custom Environment
