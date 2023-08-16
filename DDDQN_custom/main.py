@@ -13,8 +13,8 @@ if __name__ == '__main__':
     ddqn_scores = []
     eps_history = []
 
-    load_checkpoint = bool(input("Load checkpoint? (True/False) : "))
-    training_resume = bool(input("Training resume? (True/False) : "))
+    load_checkpoint = 1 if input("Load checkpoint? (True/False) : ") == 'True' else 0
+    training_resume = 1 if input("Training resume? (True/False) : ") == 'True' else 0
 
     if load_checkpoint:
         n_steps = 0
