@@ -8,13 +8,12 @@ if __name__ == '__main__':
     env = ENV()
     agent = Agent(input_dims=env.observation_space.shape, env=env,
             n_actions=env.action_space.shape[0], fc1=256, fc2=256)
-    n_games = 1
-
     # figure_file = 'plots/pendulum.png'
 
     best_score = env.reward_range[0]
     score_history = []
-    load_checkpoint = True
+    load_checkpoint = 1 if input("Load checkpoint? (True/False) : ") == 'True' else 0
+    training_resume = 1 if input("Training resume? (True/False) : ") == 'True' else 0
 
     if load_checkpoint:
         n_steps = 0
@@ -25,10 +24,15 @@ if __name__ == '__main__':
             agent.remember(observation, action, reward, observation_, done)
             n_steps += 1
         agent.learn()
-        agent.load_models(90)
-        evaluate = True
+        model_name = input("Enter model name under models dir (ex. dueling): ")
+        agent.load_models(model_name)
+        evaluate = False if training_resume == 1 else True
     else:
         evaluate = False
+
+    
+    n_games = 200 if evaluate is False else 1
+
 
     for i in range(n_games):
         observation = env.reset()
@@ -36,29 +40,31 @@ if __name__ == '__main__':
         done = False
         score = 0
         while not done:
-            if score == 0:
-                action = agent.choose_action(observation, evaluate)
-            else:
-                action = agent.choose_action(observation, evaluate)
+            action = agent.choose_action(observation, evaluate)
             observation_, reward, done, info = env.step(action)
             score += reward
             agent.remember(observation[0], action, reward, observation_[0], done)
-            if not load_checkpoint:
+            if not evaluate:
                 agent.learn()
+            else:
+                print("state:", observation_, " | action: ", action, " | reward:", reward)
+
             observation = observation_
                 
-            print("- reward: ", reward)
-            print("- observation: ", observation_)
+            # print("- reward: ", reward)
+            # print("- observation: ", observation_)
         score_history.append(score)
         avg_score = np.mean(score_history[-100:])
 
-        if i % 10 == 0:
+        print('episode ', i, 'score %.1f' % score, 'avg score %.1f' % avg_score)
+        print(" - last state: ", observation, "\t| reward: ", reward, "\t| power: ", env.get_power_consumption()[0])
+
+        if (i % 20 == 0 and i != 0) or i == n_games - 1:
             best_score = avg_score
             if not load_checkpoint:
-                agent.save_models(i)
+                agent.save_models("ddpg" + str(i))
         
-        print('episode ', i, 'score %.1f' % score, 'avg score %.1f' % avg_score)
-
+        
 
     # if not load_checkpoint:
     #     x = [i+1 for i in range(n_games)]
