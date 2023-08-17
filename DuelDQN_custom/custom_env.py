@@ -8,6 +8,7 @@ class ENV(Env):
         self.action_space = [i for i in range(-2, 3)]
         self.observation_space = Box(low=np.array([0]), high=np.array([100]), dtype=np.int8)
         self.state = np.random.choice([-20, 0, 20, 40, 60])
+        self.prev_state = self.state
         self.shower_length = 100
 
     def step(self, action):
@@ -33,6 +34,16 @@ class ENV(Env):
         else:
             reward = -100
 
+        prev_diff = min(abs(self.prev_state - 20), abs(self.prev_state - 25))
+        curr_diff = min(abs(self.state - 20), abs(self.state - 25))
+
+        if curr_diff <= prev_diff: 
+            if reward != 100: reward = reward + 50 
+            else: reward = 100
+        if curr_diff > prev_diff: reward -= 50
+
+        self.prev_state = self.state
+
         # Checking if shower is done
         if self.shower_length <= 0: 
             done = True
@@ -45,6 +56,7 @@ class ENV(Env):
     
     def reset(self):
         self.state = np.random.choice([-20, 0, 20, 40, 60])
+        self.prev_state = self.state
         self.shower_length = 100 
         return self.get_obs()
     

@@ -33,10 +33,6 @@ if __name__ == '__main__':
         while not done:
             action = agent.choose_action(observation, False)
             observation_, reward, done, info = env.step(action)
-            if abs(observation - 23) > abs(observation_ - 23): 
-                if reward != 100: reward = reward + 50 
-                else: reward = 100
-            if abs(observation - 23) < abs(observation_ - 23): reward -= 50
             print("state:", observation_, " | action: ", action, " | reward:", reward)
             score += reward
             agent.store_transition(observation, action, reward, observation_, done)
